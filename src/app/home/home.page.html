@@ -1,20 +1,89 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <ion-title>QR CODE APPLICATION</ion-title>
+ <div class="container">
 
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+  <div class="card">
+    <ion-item class="item">
+      <ion-label class="label" >
+        Your QR code
+      </ion-label>
+    </ion-item>
+    <br>
+    <!--For Print QR Code -->
+    <ngx-qrcode 
+         [elementType]="elementType" 
+         [value] = "value"
+         cssClass = "aclass"
+         errorCorrectionLevel = "L">
+   </ngx-qrcode>
   </div>
+
+  <div class="card2">
+    <ion-grid>
+      
+    <ion-item class="item">
+      <ion-label class="label" >
+         Scan QR code
+      </ion-label>
+    </ion-item>
+ <ion-row>
+  <input #fileinput type="file" accept="image/*;capture=camera" hidden
+  (change)="handleFile($event.target.files)" >
+ </ion-row>
+
+  
+
+<!-- Scann Button -->
+ <ion-row>
+  <ion-button extend="full" (click)="startScan()" class="btn" shape="round" >
+    <ion-icon name="camera-reverse-outline" class="icon"></ion-icon> &nbsp;Start Scan
+  </ion-button> 
+ </ion-row>
+
+ <!-- Scanning Video -->
+ <ion-row>
+  <video #video [hidden]="!scanActive" width="100%"></video>
+<canvas #canvas hidden></canvas>
+</ion-row>
+
+<!-- Stop Scanning Result -->
+<ion-row>
+  <ion-button extend="full" (click)="stopScan()" color="warning" *ngIf="scanActive" class="btn" shape="round">
+    <ion-icon slot="start" name="refresh"></ion-icon> stop Canner
+  </ion-button>
+ </ion-row>
+
+<!-- Capture Image Button -->
+ <ion-row>
+  <ion-button extend="full" (click)="captureImage()" class="btn" shape="round" >
+    <ion-icon name="image-outline" class="icon" ></ion-icon> &nbsp;Select Image
+  </ion-button> 
+ </ion-row>
+
+
+<!-- Reset Button -->
+ <ion-row>
+  <ion-button extend="full" (click)="reset()" color="warning" *ngIf="scanResult" class="btn" shape="round">
+    <ion-icon slot="start" name="refresh"></ion-icon> Reset
+  </ion-button> 
+</ion-row>
+
+<!-- Show Result -->
+      <ion-card *ngIf="scanResult">
+      <ion-card-head>
+      <ion-card-title>
+      Result:
+      </ion-card-title>
+      </ion-card-head>
+      <ion-card-contain>
+      {{ scanResult }}
+      </ion-card-contain>
+      </ion-card>
+
+</ion-grid>
+  </div>
+
+ </div>
+  
 </ion-content>
